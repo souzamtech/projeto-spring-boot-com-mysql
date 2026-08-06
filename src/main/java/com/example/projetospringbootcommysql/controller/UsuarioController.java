@@ -1,7 +1,6 @@
 package com.example.projetospringbootcommysql.controller;
 
 import com.example.projetospringbootcommysql.entity.UsuarioEntity;
-// Certifique-se de importar a sua interface UsuarioRepository também
 import com.example.projetospringbootcommysql.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
-@CrossOrigin(origins = "*") //Permite requisições HTTP do FRONT-END
+@CrossOrigin(origins = "*") // Permite requisições HTTP do FRONT-END
 public class UsuarioController {
 
     @Autowired
@@ -24,8 +23,33 @@ public class UsuarioController {
 
     @GetMapping
     public List<UsuarioEntity> listarUsuarios(){
-        //retornar todos os valores da tabela de usuarios_entity
+        // Retornar todos os valores da tabela de usuarios_entity
         return comandos.findAll();
         // Equivalente ao SELECT * FROM
+    }
+
+    @PutMapping("/{id}")
+    public UsuarioEntity atualizarUsuario(@PathVariable Integer id, @RequestBody UsuarioEntity dadoAtualizado) {
+
+        // Busca o usuário pelo ID. Se não encontrar, lança um erro.
+        UsuarioEntity usuarioAtual = comandos.findById(id).orElseThrow();
+
+        // Define o ID do objeto recebido para garantir que vamos atualizar o registro correto
+        usuarioAtual.setNome(dadoAtualizado.getNome());
+        usuarioAtual.setEmail(dadoAtualizado.getEmail());
+        return comandos.save(usuarioAtual);
+    }
+
+    @DeleteMapping("/{id}")
+    public String apagarUsuario(
+            @PathVariable Integer id
+    ){
+        // buscando usuario na tabela
+        UsuarioEntity pessoa = comandos.findById(id).orElseThrow();
+        String nome = pessoa.getNome();
+
+        comandos.deleteById(id); // apagando dentro do banco
+
+        return "Usuario "+nome+" deletado com sucesso!";
     }
 }
