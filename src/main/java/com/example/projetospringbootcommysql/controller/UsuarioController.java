@@ -21,8 +21,7 @@ public class UsuarioController {
         return comandos.save(usuario);
     }
 
-    @GetMapping
-    public List<UsuarioEntity> listarUsuarios(){
+    @GetMapping    public List<UsuarioEntity> listarUsuarios(){
         // Retornar todos os valores da tabela de usuarios_entity
         return comandos.findAll();
         // Equivalente ao SELECT * FROM

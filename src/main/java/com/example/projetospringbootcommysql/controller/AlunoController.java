@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/alunos")
-@CrossOrigin(origins = "*") // Permite requisições HTTP do FRONT-END
+@CrossOrigin(origins = "*") // Permite as  requisições HTTP do FRONT-END
 public class AlunoController {
 
     @Autowired
@@ -43,7 +43,7 @@ public class AlunoController {
         alunoAtual.setPeriodo(dadoAtualizado.getPeriodo());
         alunoAtual.setApresentacao(dadoAtualizado.getApresentacao());
 
-        // Salva as alterações
+
         return alunoRepository.save(alunoAtual);
     }
 
